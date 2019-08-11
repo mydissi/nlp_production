@@ -33,17 +33,19 @@ application = Flask(__name__)  # Change assignment here
 
 #define loger func
 def log(logger, json_params=None,step='new',internal_id=None):
-    if json_params is None:
+    if(json_params is None or 'number' in json_params):
         logger.info('internal_id:{0} , step:{1}'.format(internal_id,step))
     else:
         logger.info('internal_id:{0} , step:{1} , message_id{2}'.format(internal_id,step,json_params['message_id']), extra={
           'json_params': json_params
         })
+
 #create random string
 def randomString(stringLength=10):
     """Generate a random string of fixed length """
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(stringLength))
+
 
 #Mutiply string for tolmachev
 def tolmachev(string):
@@ -81,7 +83,7 @@ def tolmachev_best():
 
         #json_params = {'number': '1234'}
         status_code = 500
-        
+
         number = json_params['number']
         mult = tolmachev(number)
         response['tolmachev_best_result'] = mult
