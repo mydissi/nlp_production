@@ -39,6 +39,7 @@ def log(logger, json_params=None,step='new',internal_id=None):
     elif('number' in json_params):
         logger.info('internal_id:{0} , step:{1} , message_id{2}'.format(internal_id,step,json_params['number']), extra={
           'json_params': json_params})
+        logger.info()
     else:
         logger.info('internal_id:{0} , step:{1} , message_id{2}'.format(internal_id,step,json_params['message_id']), extra={
           'json_params': json_params
@@ -66,7 +67,7 @@ def tolmachev(string):
 #test
 @application.route("/")  
 def hello():
-    resp = print("Hello, this is an NLP ML application.\nYou may send some message via json query (/get_message) and get sentiment of it.\nAlso you can count multiplication of your number using /tolmachev_best !")
+    resp = print("Hello, this is an NLP ML application.")
     return resp
 
 @application.route("/tolmachev_best", methods=['GET', 'POST'])
