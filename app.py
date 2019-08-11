@@ -45,11 +45,62 @@ def randomString(stringLength=10):
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(stringLength))
 
+#Mutiply string for tolmachev
+def tolmachev(string):
+    string = ''.join(filter(lambda x: x.isdigit(), string))
+    list(string)
+    if(len(string)==0):
+        return 0
+    else:
+        mult = 1
+        for i in range(0,len(string)):
+            mult *= int(string[i])
+        return mult
+
 #test
 @application.route("/")  
 def hello():
-    resp = "Hello World!"
+    resp = "Hello, this is an NLP ML application!"
     return resp
+
+@application.route("/tolmachev_best", methods=['GET', 'POST'])
+def tolmachev_best():
+
+    internal_id = randomString(10)
+    status_code = 200
+    
+    response = {'status' : 'ok',
+                'code' : 200,
+                'tolmachev_best_result' : 'something wrong'}
+
+    try:
+        log(logger,step='new',internal_id=internal_id)
+        getData = request.get_data()
+        json_params = json.loads(getData) 
+        log(logger,json_params,'get json_params',internal_id)
+
+        #json_params = {'number': '1234'}
+        status_code = 500
+        
+        number = json_params['number']
+        mult = tolmachev(number)
+        response['tolmachev_best_result'] = mult
+        log(logger,json_params,'model done',internal_id)
+        
+        status_code = 200
+        
+    except:
+        if status_code == 200:
+            status_code = 500
+        traceback.print_exc()
+        response['status'] = 'error'
+        response['code'] = 501
+        log(logger,json_params,'some error',internal_id)
+
+
+    response = json.dumps(response)
+    print(response)
+    return str(response)  , status_code
 
 
 #get message from messanger and calc messages models
