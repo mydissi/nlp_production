@@ -7,6 +7,7 @@ import random
 def make_random_model(json_params = None , model_id = None , model_to = None):
     model_dict = {'model_id' : None,
                 'model_score' : None,
+                'class': None,
                 'model_to' : None,
                 'to_id' : None
                 }
@@ -24,6 +25,10 @@ def make_random_model(json_params = None , model_id = None , model_to = None):
     elif model_to == 'user_id':
         model_dict['to_id'] = json_params['user_id']
 
+    if(model_dict['model_score'] > 0):
+        model_dict['class'] = 'Положительный'
+    else:
+        model_dict['class'] = 'Отрицательный'
 
     return model_dict
 
